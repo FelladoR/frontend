@@ -2,7 +2,9 @@
   "name": "antilink-frontend",
   "version": "1.0.0",
   "scripts": {
-    "build": "vite build"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "vue": "^3.4.0",
