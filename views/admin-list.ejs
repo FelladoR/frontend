@@ -1,0 +1,358 @@
+<!-- views/admin-users.ejs -->
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AntiLink Admin | Адміністратори</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/styles/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Підключаємо Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body class="bg-[#0b0b0e] text-[#e2e2e4] font-sans selection:bg-indigo-500/30">
+    <!-- Дані через data-атрибути -->
+    <div id="app-data" data-user='<%= JSON.stringify(user) %>' data-admins='<%= JSON.stringify(admins) %>'
+        data-stats='<%= JSON.stringify(stats) %>' data-current-role='<%= currentUserRole %>' style="display: none;">
+    </div>
+
+    <div id="app">
+        <%- include('layout/admin-side') %>
+
+            <!-- Головний контент -->
+            <main class="flex-1 flex flex-col">
+                <!-- Хедер -->
+                <header
+                    class="h-20 bg-[#111116]/50 backdrop-blur-xl border-b border-white/5 flex items-center justify-between px-10 sticky top-0 z-50">
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)] animate-pulse">
+                        </div>
+                        <span class="text-sm font-medium text-white/70">Вітаємо, <span class="text-white font-bold">
+                                {{ user.username }}
+                            </span></span>
+                    </div>
+
+                    <div class="flex items-center gap-6">
+                        <div v-if="user.hasPasskey"
+                            class="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                            <i class="fas fa-check-double text-emerald-500 text-[10px]"></i>
+                            <span
+                                class="text-[10px] font-black text-emerald-500 uppercase tracking-widest">Secured</span>
+                        </div>
+                        <a href="/logout"
+                            class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-red-500/20 hover:text-red-500 transition-all border border-white/5">
+                            <i class="fas fa-power-off text-sm"></i>
+                        </a>
+                    </div>
+                </header>
+
+                <!-- Контент сторінки адміністраторів -->
+                <div class="p-10 space-y-8">
+                    <!-- Заголовок і кнопка додавання -->
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-3xl font-black tracking-tight">Адміністратори</h1>
+                            <p class="text-white/40 text-sm mt-1">Управління доступом до панелі керування</p>
+                        </div>
+
+                        <!-- КНОПКА ДОДАВАННЯ - ТІЛЬКИ ДЛЯ SUPERADMIN ТА ADMIN -->
+                        <button v-if="currentUserRole === 'superadmin' || currentUserRole === 'admin'"
+                            @click="openAddAdminModal"
+                            class="bg-indigo-600 hover:bg-indigo-700 px-5 py-3 rounded-xl font-medium flex items-center gap-2 transition-all">
+                            <i class="fas fa-plus"></i>
+                            <span>Додати адміністратора</span>
+                        </button>
+                    </div>
+
+                    <!-- Статистика адмінів -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-card group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest">Всього</p>
+                                    <h3 class="text-3xl font-black mt-1 tracking-tight">
+                                        {{ stats.totalAdmins }}
+                                    </h3>
+                                </div>
+                                <div
+                                    class="p-3 bg-indigo-500/10 rounded-2xl text-indigo-500 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-users-cog"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card group">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest">Superadmin
+                                    </p>
+                                    <h3 class="text-3xl font-black mt-1 tracking-tight">
+                                        {{ stats.superadmins }}
+                                    </h3>
+                                </div>
+                                <div
+                                    class="p-3 bg-purple-500/10 rounded-2xl text-purple-500 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card group border-indigo-500/30">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-white/40 text-[11px] font-bold uppercase tracking-widest">З passkey
+                                    </p>
+                                    <h3 class="text-3xl font-black mt-1 tracking-tight">
+                                        {{ stats.passkeyUsers }}
+                                    </h3>
+                                </div>
+                                <div
+                                    class="p-3 bg-emerald-500/10 rounded-2xl text-emerald-500 group-hover:scale-110 transition-transform">
+                                    <i class="fas fa-fingerprint"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Фільтри -->
+                    <div class="flex gap-3">
+                        <button v-for="option in filterOptions" :key="option.value" @click="setFilter(option.value)"
+                            :class="['filter-btn', { active: filter === option.value }]">
+                            {{ option.label }}
+                        </button>
+                    </div>
+
+                    <!-- Таблиця адміністраторів -->
+                    <div class="glass-card !p-0 overflow-hidden border-white/10">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-white/5 border-b border-white/5">
+                                    <tr>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            Користувач</th>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            ID</th>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            Роль</th>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            Passkey</th>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            Останній вхід</th>
+                                        <th
+                                            class="text-left py-4 px-6 text-[10px] font-black text-white/40 uppercase tracking-widest">
+                                            Дії</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-white/5">
+                                    <tr v-for="admin in filteredAdmins" :key="admin.userId"
+                                        class="hover:bg-white/5 transition-colors">
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                                                    {{ admin.username ? admin.username.charAt(0).toUpperCase() : '?' }}
+                                                </div>
+                                                <div>
+                                                    <p class="font-medium">{{ admin.username }}</p>
+                                                    <p class="text-white/40 text-xs">ID: {{ admin.userId.slice(0, 8)
+                                                        }}...
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 font-mono text-sm text-white/60">
+                                            {{ admin.userId.slice(0, 16) }}...
+                                        </td>
+
+                                        <!-- СТАРИЙ ДИЗАЙН РОЛІ -->
+                                        <td class="py-4 px-6">
+                                            <span v-if="admin.role === 'superadmin'"
+                                                class="px-3 py-1 bg-purple-500/20 text-purple-500 rounded-full text-[10px] font-bold uppercase tracking-wider">Superadmin</span>
+                                            <span v-else-if="admin.role === 'admin'"
+                                                class="px-3 py-1 bg-blue-500/20 text-blue-500 rounded-full text-[10px] font-bold uppercase tracking-wider">Admin</span>
+                                            <span v-else-if="admin.role === 'moderator'"
+                                                class="px-3 py-1 bg-green-500/20 text-green-500 rounded-full text-[10px] font-bold uppercase tracking-wider">Модератор</span>
+                                            <span v-else
+                                                class="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-full text-[10px] font-bold uppercase tracking-wider">Viewer</span>
+                                        </td>
+
+                                        <td class="py-4 px-6">
+                                            <div v-if="admin.hasPasskey" class="flex items-center gap-2">
+                                                <i class="fas fa-check-circle text-emerald-500"></i>
+                                                <span class="text-emerald-500 text-xs font-medium">
+                                                    {{ admin.passkeyCount }} ключів
+                                                </span>
+                                            </div>
+                                            <div v-else class="flex items-center gap-2">
+                                                <i class="fas fa-times-circle text-white/20"></i>
+                                                <span class="text-white/20 text-xs">Не налаштовано</span>
+                                            </div>
+                                        </td>
+
+                                        <td class="py-4 px-6 text-sm text-white/60">
+                                            {{ admin.lastLogin ? new Date(admin.lastLogin).toLocaleString('uk-UA') :
+                                            'Немає даних' }}
+                                        </td>
+
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-2">
+                                                <!-- КНОПКА РЕДАГУВАННЯ -->
+                                                <button v-if="currentUserRole === 'superadmin'"
+                                                    @click="editAdmin(admin.userId)"
+                                                    class="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                                                    title="Редагувати">
+                                                    <i class="fas fa-edit text-white/40 hover:text-white"></i>
+                                                </button>
+
+                                                <!-- КНОПКА ВИДАЛЕННЯ -->
+                                                <button
+                                                    v-if="currentUserRole === 'superadmin' || (currentUserRole === 'admin' && (admin.role === 'moderator' || admin.role === 'viewer'))"
+                                                    @click="deleteAdmin(admin.userId)"
+                                                    class="p-2 hover:bg-red-500/10 rounded-lg transition-colors"
+                                                    title="Видалити">
+                                                    <i class="fas fa-trash text-white/40 hover:text-red-500"></i>
+                                                </button>
+
+                                                <!-- КНОПКА ЗАПРОШЕННЯ PASSKEY -->
+                                                <button v-if="!admin.hasPasskey"
+                                                    @click="sendPasskeyInvite(admin.userId)"
+                                                    class="p-2 hover:bg-indigo-500/10 rounded-lg transition-colors"
+                                                    title="Запросити налаштувати passkey">
+                                                    <i class="fas fa-envelope text-white/40 hover:text-indigo-500"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Пагінація -->
+                        <div class="bg-white/5 px-6 py-4 border-t border-white/5 flex justify-between items-center">
+                            <p class="text-sm text-white/40">
+                                Показано <span class="text-white font-medium">1-{{ admins.length }}</span> з <span
+                                    class="text-white font-medium">{{ stats.totalAdmins }}</span> адміністраторів
+                            </p>
+                            <div class="flex gap-2">
+                                <button
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors disabled:opacity-30"
+                                    disabled>
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button
+                                    class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center">1</button>
+                                <button
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">2</button>
+                                <button
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">3</button>
+                                <button
+                                    class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+    </div>
+
+    <!-- МОДАЛЬНЕ ВІКНО -->
+    <div v-show="showModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-[#111116] border border-white/10 rounded-2xl p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Додати адміністратора</h3>
+                <button @click="closeAddAdminModal" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <form @submit.prevent="addAdmin">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">ID користувача Discord</label>
+                        <input type="text" v-model="newAdmin.userId" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition-colors"
+                            placeholder="558945911980556288">
+                        <p v-if="errors.userId" class="text-red-500 text-xs mt-1">{{ errors.userId }}</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">Ім'я користувача</label>
+                        <input type="text" v-model="newAdmin.username" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition-colors"
+                            placeholder="username">
+                        <p v-if="errors.username" class="text-red-500 text-xs mt-1">{{ errors.username }}</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-white/60 mb-2">Роль</label>
+                        <select v-model="newAdmin.role" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition-colors">
+                            <option value="viewer">Viewer</option>
+                            <option value="moderator">Модератор</option>
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Superadmin</option>
+                        </select>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" :disabled="loading"
+                            class="flex-1 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-xl font-medium transition-colors disabled:opacity-50">
+                            {{ loading ? 'Додавання...' : 'Додати' }}
+                        </button>
+                        <button type="button" @click="closeAddAdminModal"
+                            class="flex-1 bg-white/5 hover:bg-white/10 py-3 rounded-xl font-medium transition-colors">
+                            Скасувати
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Підключаємо головний JS файл з Vue логікою -->
+    <script type="module" src="/frontend/admin-list.js"></script>
+
+    <style>
+        .nav-link {
+            @apply flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all;
+        }
+
+        .nav-link:not(.active) {
+            @apply text-white/40 hover:text-white hover:bg-white/5;
+        }
+
+        .nav-link.active {
+            @apply bg-indigo-600 text-white shadow-lg shadow-indigo-600/20;
+        }
+
+        .glass-card {
+            @apply bg-[#111116] rounded-2xl p-6 border border-white/5 backdrop-blur-sm;
+        }
+
+        .filter-btn {
+            @apply px-4 py-2 rounded-lg text-sm font-medium transition-colors;
+        }
+
+        .filter-btn:not(.active) {
+            @apply bg-white/5 text-white/60 hover:bg-white/10;
+        }
+
+        .filter-btn.active {
+            @apply bg-indigo-600 text-white;
+        }
+    </style>
+    <%- include('layout/admin-main') %>
+</body>
+
+</html>

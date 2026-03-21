@@ -1,0 +1,37 @@
+<!-- views/passkey-login.ejs -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Підтвердження passkey</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@simplewebauthn/browser@7.2.0/dist/bundle/index.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-[#0b0b0e] text-white">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-[#111116] p-8 rounded-2xl border border-white/10 max-w-md w-full">
+            <div class="text-center">
+                <i class="fas fa-fingerprint text-6xl text-indigo-500 mb-6"></i>
+                <h2 class="text-2xl font-bold mb-2">Passkey Required</h2>
+                <p class="text-white/60 mb-8">Для доступу до адмін-панелі потрібно підтвердити вашу особу</p>
+
+                <button id="verifyPasskeyBtn"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 py-3 rounded-xl font-bold">
+                    <i class="fas fa-fingerprint mr-2"></i> Підтвердити passkey
+                </button>
+
+                <a href="/logout" class="block mt-4 text-white/40 hover:text-white/60 text-sm">
+                    Вийти з акаунту
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/frontend/passkey-login.js"></script>
+</body>
+
+</html>

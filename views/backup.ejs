@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antilink – Backups</title>
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/main.css"/>
+    <link rel="stylesheet" href="/styles/index.css" />
+    <link rel="stylesheet" href="/styles/headerStyles.css" />
+    <link rel="stylesheet" href="/styles/backup.css" />
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <header-component></header-component>
+
+      <main class="main-content">
+        <div class="backups-page">
+          <div class="page-header">
+            <h1>{{ t('backups.page_title') }}</h1>
+            <p class="subtitle">
+              {{ t('backups.page_description') }}
+            </p>
+          </div>
+
+          <!-- Стан завантаження -->
+          <div v-if="loading" class="empty-state">
+            <div
+              class="loading-spinner"
+              style="width: 40px; height: 40px"
+            ></div>
+            <h3>{{ t('backups.loading') }}</h3>
+          </div>
+
+          <!-- Список бекапів -->
+          <div v-else-if="backups.length > 0" class="backups-list">
+            <div v-for="backup in backups" :key="backup.id" class="backup-card">
+              <div class="backup-header">
+                <div class="backup-title">
+                  <div class="backup-icon">
+                    <img
+                      v-if="backup.guildIcon"
+                      :src="backup.guildIcon"
+                      :alt="backup.guildName"
+                    />
+                    <i v-else :class="getBackupIcon(backup.type)"></i>
+                  </div>
+                  <div class="backup-title-content">
+                    <h3 class="backup-name">{{ backup.name }}</h3>
+                    <div class="backup-guild-info">
+                      <span class="status-badge status-completed">
+                        {{ t('backups.status_completed') }}
+                      </span>
+                      <span class="guild-name">
+                        {{ backup.id }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="backup-meta">
+                  <div class="meta-item">
+                    <span class="meta-label">{{ t('backups.created') }}</span>
+                    <span class="meta-value">{{
+                      formatDate(backup.createdAt)
+                    }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <span class="meta-label">{{ t('backups.type') }}</span>
+                    <span class="meta-value">{{ backup.type || "0 MB" }}</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Замініть блок backup-details на цей код -->
+              <div class="backup-details">
+                <div
+                  v-if="expandedBackup === backup.id"
+                  style="
+                    background: rgba(255, 0, 0, 0.1);
+                    padding: 1rem;
+                    margin: 1rem 0;
+                    border-radius: 8px;
+                  "
+                >
+                  <h4>{{ t('backups.debug_title', { id: backup.id }) }}</h4>
+                  <p>{{ t('backups.debug_details_loaded') }} {{ !!backup.details }}</p>
+                  <p>{{ t('backups.debug_roles_count') }} {{ getRoles(backup).length }}</p>
+                  <div v-if="getRoles(backup).length > 0">
+                    <p>{{ t('backups.debug_first_roles') }}</p>
+                    <div
+                      v-for="(role, index) in getRoles(backup).slice(0, 3)"
+                      :key="role.id"
+                    >
+                      {{ role.name }} - {{ t('backups.debug_color') }}: {{ role.color }} - HEX:
+                      {{ getRoleColor(role.color) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="backup-stats">
+                  <div
+                    v-if="expandedBackup === backup.id"
+                    style="
+                      background: rgba(255, 0, 0, 0.1);
+                      padding: 1rem;
+                      margin: 1rem 0;
+                      border-radius: 8px;
+                    "
+                  >
+
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">{{
+                      countCategories(backup)
+                    }}</span>
+                    <span class="stat-label">{{ t('backups.stats_categories') }}</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">{{ countChannels(backup) }}</span>
+                    <span class="stat-label">{{ t('backups.stats_channels') }}</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">{{
+                      getRoles(backup).length
+                    }}</span>
+                    <span class="stat-label">{{ t('backups.stats_roles') }}</span>
+                  </div>
+                  <div class="stat">
+                    <span class="stat-value">{{
+                      getEmojis(backup).length
+                    }}</span>
+                    <span class="stat-label">{{ t('backups.stats_emojis') }}</span>
+                  </div>
+                </div>
+
+                <div class="backup-actions-row">
+                  <button
+                    class="btn primary-btn"
+                    @click="restoreBackup(backup.id, backup.guildId)"
+                  >
+                    <i class="fas fa-redo"></i> {{ t('backups.action_restore') }}
+                  </button>
+
+                  <button
+                    class="btn secondary-btn"
+                    @click="openBackupModal(backup.id)"
+                  >
+                    <i class="fas fa-eye"></i> {{ t('backups.action_details') }}
+                  </button>
+
+                  <button
+                    class="btn secondary-btn"
+                    @click="deleteBackup(backup.id)"
+                  >
+                    <i class="fas fa-trash"></i> {{ t('backups.action_delete') }}
+                  </button>
+                </div>
+
+                <!-- Детальна інформація -->
+                <div
+                  v-if="expandedBackup === backup.id"
+                  class="backup-expanded"
+                >
+                  <!-- Ролі -->
+                  <div class="detail-section">
+                    <div
+                      class="section-header"
+                      @click="toggleSection(backup.id, 'roles')"
+                    >
+                      <h4>
+                        <i class="fas fa-user-tag"></i>
+                        {{ t('backups.section_roles') }}
+                        <span class="count">{{
+                          backup.details?.roles?.length || 0
+                        }}</span>
+                      </h4>
+                      <i
+                        class="fas fa-chevron-down chevron"
+                        :class="{ rotated: isSectionExpanded(backup.id, 'roles') }"
+                      ></i>
+                    </div>
+                    <div
+                      class="section-content"
+                      :class="{ expanded: isSectionExpanded(backup.id, 'roles') }"
+                    >
+                      <div
+                        class="item-list"
+                        v-if="backup.details?.roles?.length"
+                      >
+                        <div
+                          v-for="role in backup.details.roles"
+                          :key="role.id"
+                          class="role-item"
+                        >
+                          <div
+                            class="role-color-indicator"
+                            :style="{ 
+            backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#99aab5',
+            borderColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#99aab5'
+          }"
+                          ></div>
+                          <div class="role-info">
+                            <div class="role-name">{{ role.name }}</div>
+                            <div class="role-meta">
+                              <span>{{ t('backups.role_position') }} {{ role.position }}</span>
+                              <span>• {{ t('backups.role_permissions') }}: {{ role.permissions || 0 }}</span>
+                              <span
+                                v-if="role.hoist"
+                                class="role-badge badge-hoist"
+                                >{{ t('backups.role_hoist') }}</span
+                              >
+                              <span
+                                v-if="role.mentionable"
+                                class="role-badge badge-mentionable"
+                                >{{ t('backups.role_mentionable') }}</span
+                              >
+                              <span
+                                v-if="role.permissions & 0x8"
+                                class="role-badge badge-admin"
+                                >{{ t('backups.role_admin') }}</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else class="empty-list">{{ t('backups.no_roles') }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Канали -->
+                  <div class="detail-section">
+                    <div
+                      class="section-header"
+                      @click="toggleSection(backup.id, 'channels')"
+                    >
+                      <h4>
+                        <i class="fas fa-hashtag"></i>
+                        {{ t('backups.section_channels') }}
+                        <span class="count">{{
+                          backup.details?.channels?.length || 0
+                        }}</span>
+                      </h4>
+                      <i
+                        class="fas fa-chevron-down chevron"
+                        :class="{ rotated: isSectionExpanded(backup.id, 'channels') }"
+                      ></i>
+                    </div>
+                    <div
+                      class="section-content"
+                      :class="{ expanded: isSectionExpanded(backup.id, 'channels') }"
+                    >
+                      <div
+                        class="item-list"
+                        v-if="backup.details?.channels?.length"
+                      >
+                        <div
+                          v-for="channel in backup.details.channels"
+                          :key="channel.id"
+                          class="item-row"
+                        >
+                          <div class="item-icon">
+                            <i :class="getChannelIcon(channel)"></i>
+                          </div>
+                          <div class="item-info">
+                            <div class="item-name">{{ channel.name }}</div>
+                            <div class="item-meta">
+                              <span
+                                class="channel-type"
+                                :class="'channel-' + getChannelTypeText(channel)"
+                              >
+                                {{ getChannelTypeText(channel) }}
+                              </span>
+                              <span v-if="channel.topic"
+                                >• {{ channel.topic }}</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else class="empty-list">{{ t('backups.no_channels') }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Емодзі -->
+                  <div class="detail-section">
+                    <div
+                      class="section-header"
+                      @click="toggleSection(backup.id, 'emojis')"
+                    >
+                      <h4>
+                        <i class="fas fa-smile"></i>
+                        {{ t('backups.section_emojis') }}
+                        <span class="count">{{
+                          backup.details?.emojis?.length || 0
+                        }}</span>
+                      </h4>
+                      <i
+                        class="fas fa-chevron-down chevron"
+                        :class="{ rotated: isSectionExpanded(backup.id, 'emojis') }"
+                      ></i>
+                    </div>
+                    <div
+                      class="section-content"
+                      :class="{ expanded: isSectionExpanded(backup.id, 'emojis') }"
+                    >
+                      <div
+                        class="item-list"
+                        v-if="backup.details?.emojis?.length"
+                      >
+                        <div
+                          v-for="emoji in backup.details.emojis"
+                          :key="emoji.id"
+                          class="item-row"
+                        >
+                          <img
+                            v-if="emoji.url"
+                            :src="emoji.url"
+                            :alt="emoji.name"
+                            class="emoji-image"
+                          />
+                          <div v-else class="item-icon">
+                            <i class="fas fa-image"></i>
+                          </div>
+                          <div class="item-info">
+                            <div class="item-name">:{{ emoji.name }}:</div>
+                            <div class="item-meta" v-if="emoji.animated">
+                              {{ t('backups.emoji_animated') }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div v-else class="empty-list">{{ t('backups.no_emojis') }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Пустий стан -->
+          <div v-else class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>{{ t('backups.empty_state_title') }}</h3>
+            <p>
+              {{ t('backups.empty_state_description') }}
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <div
+        v-if="modalBackupId"
+        class="backup-modal"
+        @click.self="closeBackupModal"
+      >
+        <div class="modal-content" v-if="getCurrentBackup()">
+          <div class="modal-header">
+            <div class="modal-header-content">
+              <img
+                v-if="getCurrentBackup().guildIcon"
+                :src="getCurrentBackup().guildIcon"
+                :alt="getCurrentBackup().guildName"
+                class="modal-guild-icon"
+              />
+              <div
+                v-else
+                class="modal-guild-icon"
+                style="
+                  background: var(--accent);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <i class="fas fa-server"></i>
+              </div>
+              <div class="modal-title">
+                <h3>{{ getCurrentBackup().name }}</h3>
+                <div class="modal-subtitle">
+                  <span class="status-badge status-completed">{{ t('backups.status_completed') }}</span>
+                  <span>{{ getCurrentBackup().id }}</span>
+                  <span>•</span>
+                  <span>{{ formatDate(getCurrentBackup().createdAt) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="close-modal" @click="closeBackupModal">
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+
+          <div class="modal-body">
+            <div class="modal-stats">
+              <div class="modal-stat">
+                <div class="modal-stat-value">
+                  {{ countCategories(getCurrentBackup()) }}
+                </div>
+                <div class="modal-stat-label">{{ t('backups.stats_categories') }}</div>
+              </div>
+              <div class="modal-stat">
+                <div class="modal-stat-value">
+                  {{ countChannels(getCurrentBackup()) }}
+                </div>
+                <div class="modal-stat-label">{{ t('backups.stats_channels') }}</div>
+              </div>
+              <div class="modal-stat">
+                <div class="modal-stat-value">
+                  {{ getRoles(getCurrentBackup()).length }}
+                </div>
+                <div class="modal-stat-label">{{ t('backups.stats_roles') }}</div>
+              </div>
+              <div class="modal-stat">
+                <div class="modal-stat-value">
+                  {{ getEmojis(getCurrentBackup()).length }}
+                </div>
+                <div class="modal-stat-label">{{ t('backups.stats_emojis') }}</div>
+              </div>
+            </div>
+
+            <div class="modal-sections">
+              <!-- Канали -->
+              <div class="modal-section">
+                <div
+                  class="modal-section-header"
+                  @click="expandedSections.channels = !expandedSections.channels"
+                >
+                  <div class="modal-section-title">
+                    <i class="fas fa-hashtag"></i>
+                    {{ t('backups.section_channels') }}
+                    <span class="section-count">
+                      {{ countChannels(getCurrentBackup()) }} {{ t('backups.channels_count') }} /
+                      {{ countCategories(getCurrentBackup()) }} {{ t('backups.categories_count') }}
+                    </span>
+                  </div>
+                  <i
+                    class="fas fa-chevron-down"
+                    :class="{ rotated: expandedSections.channels }"
+                  ></i>
+                </div>
+                <div
+                  class="modal-section-content"
+                  :class="{ expanded: expandedSections.channels }"
+                >
+                  <div
+                    class="modal-items"
+                    v-if="getChannels(getCurrentBackup()).length"
+                  >
+                    <div
+                      v-for="channel in getChannels(getCurrentBackup())"
+                      :key="channel.id || channel.name"
+                      class="modal-item"
+                      :style="{ 
+                  'margin-left': channel.parentCategory ? '1rem' : '0',
+                  'border-left': channel.parentCategory ? '2px solid var(--accent)' : 'none'
+                }"
+                    >
+                      <div class="modal-item-icon">
+                        <i :class="getChannelIcon(channel)"></i>
+                      </div>
+                      <div class="modal-item-info">
+                        <div class="modal-item-name">
+                          {{ channel.name }}
+                          <span
+                            v-if="channel.isCategory"
+                            style="color: var(--accent); font-size: 0.8em"
+                          >
+                            ({{ t('backups.channel_category') }})</span
+                          >
+                        </div>
+                        <div class="modal-item-meta">
+                          <span
+                            class="channel-badge"
+                            :class="getChannelBadgeClass(channel)"
+                          >
+                            {{ getChannelTypeName(channel) }}
+                          </span>
+                          <span
+                            v-if="channel.parentCategory && !channel.isCategory"
+                          >
+                            • {{ channel.parentCategory }}
+                          </span>
+                          <span
+                            v-if="channel.topic && channel.topic.length > 0"
+                          >
+                            • {{ channel.topic }}
+                          </span>
+                          <span
+                            v-if="channel.children && channel.children.length > 0"
+                          >
+                            • {{ channel.children.length }} {{ t('backups.channels_count') }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="empty-section">{{ t('backups.no_channels') }}</div>
+                </div>
+              </div>
+
+              <!-- Ролі -->
+              <div class="modal-section">
+                <div
+                  class="modal-section-header"
+                  @click="expandedSections.roles = !expandedSections.roles"
+                >
+                  <div class="modal-section-title">
+                    <i class="fas fa-user-tag"></i>
+                    {{ t('backups.section_roles') }}
+                    <span class="section-count">
+                      {{ getRoles(getCurrentBackup()).length }}
+                    </span>
+                  </div>
+                  <i
+                    class="fas fa-chevron-down"
+                    :class="{ rotated: expandedSections.roles }"
+                  ></i>
+                </div>
+                <div
+                  class="modal-section-content"
+                  :class="{ expanded: expandedSections.roles }"
+                >
+                  <div
+                    class="modal-items"
+                    v-if="getRoles(getCurrentBackup()).length"
+                  >
+                    <div
+                      v-for="role in getRoles(getCurrentBackup())"
+                      :key="role.id"
+                      class="modal-item"
+                    >
+                      <div class="modal-item-icon">
+                        <div
+                          class="role-color-preview"
+                          :style="{ 
+              backgroundColor: role.color ? `#${role.color.toString(16).padStart(6, '0')}` : '#99aab5'
+            }"
+                        ></div>
+                      </div>
+                      <div class="modal-item-info">
+                        <div class="modal-item-name">{{ role.name }}</div>
+                        <div class="modal-item-meta">
+                          {{ t('backups.role_position') }}: {{ role.position }}
+                          <span v-if="role.permissions"
+                            >• {{ t('backups.role_permissions') }}: {{ role.permissions }}</span
+                          >
+                          <span v-if="role.mentionable">• {{ t('backups.role_mentionable') }}</span>
+                          <span v-if="role.hoist">• {{ t('backups.role_hoist') }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="empty-section">{{ t('backups.no_roles') }}</div>
+                </div>
+              </div>
+
+              <!-- Емодзі -->
+              <div class="modal-section">
+                <div
+                  class="modal-section-header"
+                  @click="expandedSections.emojis = !expandedSections.emojis"
+                >
+                  <div class="modal-section-title">
+                    <i class="fas fa-smile"></i>
+                    {{ t('backups.section_emojis') }}
+                    <span class="section-count">
+                      {{ getEmojis(getCurrentBackup()).length }}
+                    </span>
+                  </div>
+                  <i
+                    class="fas fa-chevron-down"
+                    :class="{ rotated: expandedSections.emojis }"
+                  ></i>
+                </div>
+                <div
+                  class="modal-section-content"
+                  :class="{ expanded: expandedSections.emojis }"
+                >
+                  <div
+                    class="modal-items"
+                    v-if="getEmojis(getCurrentBackup()).length"
+                  >
+                    <div
+                      v-for="emoji in getEmojis(getCurrentBackup())"
+                      :key="emoji.id"
+                      class="modal-item"
+                    >
+                      <div class="modal-item-icon">
+                        <img
+                          v-if="emoji.url"
+                          :src="emoji.url"
+                          :alt="emoji.name"
+                          class="emoji-preview"
+                        />
+                        <i v-else class="fas fa-image"></i>
+                      </div>
+                      <div class="modal-item-info">
+                        <div class="modal-item-name">:{{ emoji.name }}:</div>
+                        <div class="modal-item-meta">
+                          <span v-if="emoji.animated">{{ t('backups.emoji_animated') }}</span>
+                          <span v-else>{{ t('backups.emoji_static') }}</span>
+                          <span v-if="emoji.managed">• {{ t('backups.emoji_managed') }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="empty-section">{{ t('backups.no_emojis') }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer-component></footer-component>
+    </div>
+
+     <%- include('layout/scripts') %>
+    <script src="/frontend/backup.js" type="module"></script>
+  </body>
+</html>

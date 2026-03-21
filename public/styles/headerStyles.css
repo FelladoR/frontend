@@ -1,0 +1,374 @@
+:root {
+  --header-border: #2b2d31;
+  --text-white: #ffffff;
+  --discord-blurple: #5865f2;
+  --discord-blurple-dark: #4752c4;
+  --card-bg: #2b2d31;
+  --hover-bg: rgba(255, 255, 255, 0.1);
+
+  /* Додані відсутні змінні, які використовуються в стилях */
+  --fg: var(--text-white); /* основний колір тексту */
+  --accent: var(--discord-blurple);
+  --max-width: 1080px;
+}
+
+/* Header styles — відповідають загальному дизайну сайту */
+.header {
+  width: 100%;
+  backdrop-filter: blur(6px);
+  background: linear-gradient(
+    180deg,
+    rgba(10, 11, 14, 0.5),
+    rgba(10, 11, 14, 0.35)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  padding: 15px 0;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-logo {
+  margin: 0;
+  font-size: 1.8rem;
+  color: var(--fg, #e6e7ea);
+  font-weight: 800;
+  text-decoration: none;
+  padding: 0.2rem 0.4rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(90deg, #5865f2, #eb459e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-buttons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+/* Links */
+.header-link {
+  color: var(--fg);
+  opacity: 0.9;
+  text-decoration: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.header-link:hover {
+  background: rgba(88, 101, 242, 0.06);
+}
+
+/* Auth area */
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Login button */
+.header-login-btn {
+  display: inline-flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, var(--accent, #5865f2), #5a67f5);
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 26px rgba(88, 101, 242, 0.12);
+}
+
+.header-login-btn .btn-text {
+  display: inline-block;
+}
+
+.header-login-btn i {
+  font-size: 1.05rem;
+}
+
+/* User avatar */
+.user-avatar-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(0, 0, 0, 0.12)
+  );
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.user-dropdown-menu {
+  font-family: inherit;
+  font-size: 14px;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--card-bg);
+  color: var(--text-white);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  padding: 8px 0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  /* Додайте для консистентності: */
+  text-align: left;
+}
+
+.user-dropdown-menu * {
+  box-sizing: border-box;
+}
+
+.user-dropdown-menu .user-info {
+  padding: 8px 16px;
+}
+.user-dropdown-menu .dropdown-item {
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.user-dropdown-menu .user-info {
+  padding: 0.5rem 0.6rem;
+  color: var(--fg);
+  font-weight: 700;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.04);
+  margin: 6px 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  /* Додайте ці властивості для вирівнювання зліва: */
+  justify-content: flex-start;
+  padding-left: 16px; /* Фіксований відступ зліва */
+}
+
+.dropdown-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  /* Додайте для точного вирівнювання іконок: */
+  margin-right: 4px;
+}
+
+.dropdown-item:hover {
+  background: rgba(88, 101, 242, 0.1);
+  transform: translateY(-1px);
+}
+
+.dropdown-item:last-child {
+  color: #f04747;
+}
+
+.dropdown-item:last-child:hover {
+  background: rgba(240, 71, 71, 0.1);
+}
+
+/* Accessibility helper */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+.user-profile {
+  position: relative;
+  display: inline-block;
+}
+
+.header-buttons .profile-settings {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden; /* Додайте це! */
+}
+
+
+.header-buttons .profile-settings img {
+  width: 100%; /* Замість 22px */
+  height: 100%;
+  object-fit: cover; /* або contain залежно від потрібного ефекту */
+  display: block;
+  filter: brightness(2);
+  padding: 8px; /* Додайте трохи відступів всередині кнопки */
+}
+
+
+
+.header-buttons .profile-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background: #0f172a;
+  padding: 10px 0;
+  border-radius: 8px;
+  width: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  z-index: 999;
+}
+
+
+.lang-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #0f0f12;
+  padding: 10px 15px;
+  width: 220px;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  animation: fadeIn 0.2s ease;
+}
+
+.lang-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ddd;
+  transition: 0.15s;
+}
+
+.lang-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.lang-item.active {
+  background: rgba(88, 101, 242, 0.4);
+}
+
+.lang-flag {
+  font-size: 18px;
+}
+
+.lang-back {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+/* Responsive: compact header on small screens */
+@media (max-width: 720px) {
+  .header-container {
+    padding: 0.5rem  0.6rem;
+  }
+
+  .header-logo {
+    font-size: 1rem;
+  }
+
+  .header-link {
+    display: none;
+  } /* hide support/appeal links to save space */
+
+  .user-avatar-wrapper {
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
+  }
+
+  .header-login-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Ensure dropdown positions inside viewport on very small screens */
+@media (max-width: 480px) {
+  .user-dropdown-menu {
+    right: 8px;
+    left: auto;
+  }
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+

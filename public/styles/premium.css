@@ -1,0 +1,132 @@
+/* --- Global --- */
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #0f1017;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.premium-container {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.subtitle {
+  margin-top: 35px;
+  font-size: 24px;
+  text-align: center;
+}
+
+/* --- Guild list --- */
+
+.guilds {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.guild {
+  background: #1a1b26;
+  border: 1px solid #2c2d3b;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.guild:hover {
+  background: #242633;
+  transform: translateY(-3px);
+}
+
+.guild.selected {
+  border-color: #7289da;
+  background: #232536;
+}
+
+.guild img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: #ff5454;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+}
+
+/* --- Period buttons --- */
+
+.periods {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.periods button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid #323446;
+  background: #1b1c27;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.periods button:hover {
+  background: #26283a;
+}
+
+.periods button.active {
+  background: #7289da;
+  border-color: #7289da;
+}
+
+/* --- Pay button --- */
+
+.pay-btn {
+  width: 100%;
+  background: #3ba55d;
+  padding: 14px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.pay-btn:hover {
+  background: #2c8f4e;
+}
+
+.pay-btn:disabled {
+  background: #2d2f39;
+  cursor: not-allowed;
+}
+
+.payment-block {
+  border-top: 1px solid #2a2b37;
+  padding-top: 25px;
+}

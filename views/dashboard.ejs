@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гільдії</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/styles/main.css"/>
+    <link rel="stylesheet" href="/styles/dashboard.css" />
+    <link rel="stylesheet" href="/styles/headerStyles.css" />
+    <%- include('layout/head') %>
+
+    
+    
+  </head>
+  <body>
+    <div id="preloader">
+      <div class="preloader-spinner"></div>
+      
+    </div>
+
+    <div id="app" v-cloak>
+      <header-component></header-component>
+
+      <div class="main-content">
+        <div class="container">
+          <div v-if="user">
+            <div class="text-center mb-4">
+              <h2 class="mb-1">{{ t("dashboard.main_title")}}{{ user.username }}</h2>
+              <h5 class="text-muted">{{ t("dashboard.main_desc")}}</h5>
+            </div>
+
+            <div v-if="processedGuilds && processedGuilds.length > 0">
+              <div class="row g-3">
+                <div
+                  class="col-12"
+                  v-for="guild in processedGuilds"
+                  :key="guild.id"
+                >
+                  <div class="d-flex align-items-center justify-content-between p-3 guild-card">
+                    <div class="d-flex align-items-center gap-3">
+                      <img
+                        v-if="guild.icon"
+                        :src="`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`"
+                        class="guild-icon"
+                        :alt="guild.name"
+                      />
+                      <img
+                        v-else
+                        src="https://cdn.discordapp.com/embed/avatars/0.png"
+                        class="guild-icon"
+                        :alt="guild.name"
+                      />
+                      <div>
+                        <span class="guild-name">{{ guild.name }}</span>
+                        <div class="guild-sub">
+                          ID: {{ guild.id }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="guild-actions d-flex align-items-center">
+                      <button
+                        :class="['btn btn-sm', 
+                                {'btn-success add-btn': !guild.botAdded && !guild.loading},
+                                {'btn-outline-primary': guild.botAdded && !guild.loading},
+                                {'btn-secondary': guild.loading}]"
+                        @click="handleGuildAction(guild, $event)"
+                        :disabled="guild.loading"
+                        :aria-label="guild.loading ? 'Перевірка сервера' : (guild.botAdded ? 'Налаштувати сервер' : 'Додати бота')"
+                      >
+                        <span v-if="guild.loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        {{
+                          guild.loading
+                            ?  t('dashboard.guild_loading.checking')
+                            : guild.botAdded
+                            ?  t('dashboard.guild_loading.setup')
+                            :  t('dashboard.guild_loading.add')
+                        }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-else class="text-center">
+              <div class="alert alert-info d-inline-flex align-items-center gap-2" role="status">
+                <i class="fa-regular fa-face-sad fa-lg"></i>
+                <div>
+                  {{ t('dashboard.no_servers')}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-else class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Завантаження...</span>
+            </div>
+            <p class="mt-2">Завантаження даних...</p>
+          </div>
+        </div>
+      </div>
+      <footer-component></footer-component>
+    </div>
+  </body>
+
+    
+    <%- include('layout/scripts') %>
+    <script type="module" src="/frontend/dashboard.js"></script>
+</html>

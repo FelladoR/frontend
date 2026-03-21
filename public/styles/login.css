@@ -1,0 +1,117 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  background-color: var(--bg-main-color);
+  background-image: var(--bg-main-image);
+  background-attachment: var(--bg-main-attachment);
+  background-repeat: var(--bg-main-repeat);
+  background-size: var(--bg-main-size);
+  background-position: var(--bg-main-position);
+
+  color: var(--fg);
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  padding-bottom: 20px;
+}
+
+.header {
+  background: #2b2d31;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-container {
+  padding-left: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-buttons button {
+  text-decoration: none;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.header-buttons img {
+  height: 100%;
+}
+.login {
+  margin-top: 250px;
+  font-size: 200%;
+}
+
+.login input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.loginh1 {
+  font-size: 100%;
+}
+.login button {
+  color: white;
+  font-size: 40%;
+  background-color: #5662f6;
+  color: dark;
+  border: 2px;
+  padding: 10px;
+  animation: ripple;
+  cursor: pointer;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.login button:hover {
+  background-color: white;
+  color: #333;
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.user_logo {
+  cursor: pointer;
+  object-fit: cover;
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
+  border-radius: 50px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  padding-top: 50px;
+  right: 0;
+  background: #1e1f22;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}

@@ -1,0 +1,23 @@
+:root {
+    --bg-main-image: linear-gradient(180deg,
+            rgba(10, 11, 14, 0.95) 0%,
+            rgba(20, 21, 23, 0.95) 100%);
+
+    --bg-main-color: #0f1115;
+
+    --bg-main-attachment: fixed;
+    --bg-main-repeat: no-repeat;
+    --bg-main-size: cover;
+    --bg-main-position: center top;
+    --bg-font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+    --bs-body-bg: var(--bg-main-color);
+    
+}
+
+#snow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  display: none;
+}

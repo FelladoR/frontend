@@ -1,0 +1,119 @@
+/* Запобігаємо мерехтінню перед завантаженням Vue */
+[v-cloak] {
+  display: none;
+}
+
+/* Сторінковий фон - узгоджений із index.ejs (темний градієнт/акцент)
+         + фіксуємо фон, щоб уникнути помітної лінії при прокрутці */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+
+  background-color: var(--bg-main-color);
+  background-image: var(--bg-main-image);
+  background-attachment: var(--bg-main-attachment);
+  background-repeat: var(--bg-main-repeat);
+  background-size: var(--bg-main-size);
+  background-position: var(--bg-main-position);
+
+  color: var(--fg);
+}
+
+.main-content,
+.container {
+  background: transparent;
+}
+
+/* Невелике ущільнення для карточок + більший розмір */
+.guild-card {
+
+  color: var(--fg);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 1.15rem; /* більший padding ніж раніше */
+}
+
+.guild-icon {
+  width: 56px; /* більша іконка на десктопі */
+  height: 56px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.guild-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: block;
+}
+
+.guild-sub {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.guild-actions .guild-btn {
+  min-width: 120px;
+}
+
+.main-content {
+  padding: 2.6rem 0; /* трохи більше відступу зверху/знизу */
+}
+
+/* Невеликий hover для картки */
+.guild-card:hover {
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.45);
+  transform: translateY(-2px);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+/* Адаптація: на малих екранах картка вертикальна та кнопка займає всю ширину */
+@media (max-width: 720px) {
+  .guild-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.9rem;
+  }
+
+  .guild-card .d-flex.align-items-center.gap-3 {
+    flex-wrap: nowrap;
+  }
+
+  .guild-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .guild-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .guild-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .main-content {
+    padding: 1.4rem 0;
+  }
+}
+
+/* Додаткове дрібне правило для дуже маленьких екранів */
+@media (max-width: 480px) {
+  .guild-name {
+    font-size: 0.98rem;
+  }
+  .guild-sub {
+    font-size: 0.8rem;
+  }
+  .guild-actions {
+    justify-content: center;
+  }
+}
