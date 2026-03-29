@@ -1,7 +1,6 @@
 <template>
   <meta charset="UTF-8" />
   <title>Умови користування - AntiLink</title>
-  <link rel="stylesheet" href="/src/styles/terms.css" />
   <body>
     <div v-cloak id="app">
       <header-component />
@@ -118,3 +117,7 @@ import FooterComponent from '@/components/layout/Footer.vue';
 
 const { t } = useI18n();
 </script>
+
+<style scoped>
+@import '../styles/terms.css';
+</style>

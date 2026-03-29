@@ -8,8 +8,6 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
-  <link rel="stylesheet" href="/src/styles/main.css" />
-  <link rel="stylesheet" href="/src/styles/user-backups.css" />
 
   <header-component />
 
@@ -1022,3 +1020,7 @@ const showNotification = (message, type = 'info') => {
   setTimeout(() => notification.remove(), 3000);
 };
 </script>
+
+<style scoped>
+@import '../styles/user-backups.css';
+</style>

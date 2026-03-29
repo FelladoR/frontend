@@ -5,7 +5,6 @@
       <div class="twinkling" />
     </div>
     <header-component />
-    <link rel="stylesheet" href="/src/styles/index.css" />
     <main class="main-content">
       <section class="hero">
         <div class="hero-content container">
@@ -127,3 +126,7 @@ onMounted(() => {
   fetchBotStats();
 });
 </script>
+
+<style scoped>
+@import '../styles/index.css';
+</style>

@@ -1,6 +1,4 @@
 <template>
-  <link rel="stylesheet" href="/src/styles/docs.css" />
-
   <header-component />
 
   <main class="main-content" role="main">
@@ -181,3 +179,7 @@ import FooterComponent from '@/components/layout/Footer.vue';
 // 2. Ініціалізуємо функцію t
 const { t } = useI18n();
 </script>
+
+<style scoped>
+@import '../styles/docs.css';
+</style>

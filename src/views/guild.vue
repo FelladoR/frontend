@@ -11,8 +11,6 @@
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
   />
 
-  <link rel="stylesheet" href="/src/styles/guild.css" />
-
   <header-component />
 
   <div class="main-content">
@@ -864,3 +862,7 @@ onMounted(() => {
   loadBackups();
 });
 </script>
+
+<style scoped>
+@import '../styles/guild.css';
+</style>

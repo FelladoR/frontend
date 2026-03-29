@@ -2,8 +2,6 @@
   <meta charset="UTF-8" />
   <title>Політика конфіденційності - AntiLink</title>
 
-  <link rel="stylesheet" href="/src/styles/privacy.css" />
-
   <body>
     <div v-cloak id="app">
       <header-component />
@@ -83,3 +81,7 @@ import HeaderComponent from '@/components/layout/Header.vue';
 
 const { t } = useI18n();
 </script>
+
+<style scoped>
+@import '../styles/privacy.css';
+</style>

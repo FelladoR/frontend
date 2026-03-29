@@ -1,5 +1,4 @@
 <template>
-  <link rel="stylesheet" href="/src/styles/error.css" />
   <div class="error-page-layout">
     <header-component />
 
@@ -64,3 +63,7 @@ const goBack = () => {
   window.history.back();
 };
 </script>
+
+<style scoped>
+@import '../styles/error.css';
+</style>
