@@ -3,7 +3,6 @@
   <nav class="header" role="navigation" aria-label="Site header">
     <div class="header-container">
       <a class="header-logo" href="/" aria-label="AntiLink головна">AntiLink</a>
-      <link rel="stylesheet" href="/src/styles/headerStyles.css" />
       <div class="header-buttons">
         <div class="profile-dropdown-wrapper">
           <button class="profile-settings" @click.stop="toggleDropdown">
@@ -239,3 +238,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleKeyDown);
 });
 </script>
+
+<style scoped>
+@import '../../styles/headerStyles.css';
+</style>
