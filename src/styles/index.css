@@ -1,0 +1,386 @@
+[v-cloak] {
+  display: none;
+}
+
+:root {
+  --bg: #0f1115;
+  --card-bg: #14151b;
+  --fg: #e6e7ea;
+  --muted: #9aa0a6;
+  --accent: #5865f2;
+  --glass: rgb(255 255 255 0.03);
+  --max-width: 1080px;
+  --site-padding: 20px;
+  --hero-title-mobile: 2.2rem;
+  --hero-title-desktop: 2.5rem;
+  --hero-subtitle-mobile: 1rem;
+  --hero-subtitle-desktop: 1.2rem;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+  background: #0b0b0e;
+  color: var(--fg);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.4;
+}
+
+img,
+picture,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.main-content {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem var(--site-padding);
+  width: 100%;
+}
+
+/* Контейнер для фону (фіксуємо його позаду всього) */
+.background-wrap {
+  position: fixed;
+  inset: 0; /* Замінює top/left/right/bottom: 0 та width/height */
+  z-index: -1;
+  overflow: hidden;
+  background: #0b0b0e;
+}
+
+/* Шар зі стаціонарними зорями */
+.stars {
+  position: absolute;
+  inset: 0; /* Сучасний спосіб розтягнути блок */
+  z-index: 0;
+  background: #000
+    url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/stars.png') repeat
+    top center;
+}
+
+/* Шар з мерехтінням */
+.twinkling {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: transparent
+    url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/123163/twinkling.png')
+    repeat top center;
+  animation: move-twink-back 200s linear infinite;
+}
+
+/* Анімація польоту */
+@keyframes move-twink-back {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: -10000px 5000px;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.8rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+.primary-btn {
+  background: linear-gradient(90deg, var(--accent), #5a67f5);
+  color: #fff;
+  border: none;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid rgb(255 255 255 / 10%);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 2rem 0 3rem;
+}
+
+.hero-content {
+  flex: 1;
+}
+
+.features-container h2 {
+  color: white;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.hero-content h1 {
+  font-size: var(--hero-title-mobile);
+  font-weight: 800;
+  background: linear-gradient(135deg, #5865f2, #eb459e);
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: var(--hero-subtitle-mobile);
+  color: #b0b0b0;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.hero-image {
+  flex: 1;
+  text-align: center;
+}
+
+.hero-image img {
+  max-height: 280px;
+  width: auto;
+  border-radius: 50%;
+  margin-left: 200px;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.features {
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #fff, #9aa0b2);
+  background-clip: text;
+  color: transparent;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.feature-card {
+  background: rgb(255 255 255 / 3%);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgb(255 255 255 / 5%);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  background: rgb(255 255 255 / 5%);
+  border-color: rgb(88 101 242 / 3%);
+}
+
+.container {
+  max-width: 1200px;
+
+  /* 2. ЦЕ МАГІЯ: автоматичні відступи зліва і справа вирівнюють блок по центру */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* 3. Додаємо внутрішні відступи, щоб на мобілках текст не прилипав до країв екрану */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  color: var(--accent);
+}
+
+.feature-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  color: white;
+}
+
+.feature-card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 2%),
+    rgb(255 255 255 / 1%)
+  );
+  border: 1px solid rgb(255 255 255 / 3%);
+  border-radius: 24px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.stats-section:hover {
+  background: rgb(255 255 255 / 3%);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgb(255 255 255 / 5%);
+  transition: all 0.3s ease;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* ===== АДАПТАЦІЯ (планшети) ===== */
+@media (width <= 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== АДАПТАЦІЯ (мобільні) ===== */
+@media (width <= 768px) {
+  .main-content {
+    padding: 1.5rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .features h2 {
+    font-size: 1.8rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 1.6rem;
+  }
+}
+
+/* ===== АДАПТАЦІЯ (телефони) ===== */
+@media (width <= 600px) {
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    white-space: normal;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-section {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .stat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .stat-number {
+    font-size: 1.4rem;
+    min-width: 80px;
+  }
+}
+
+/* ===== ДЕСКТОП (більше 1000px) ===== */
+@media (width <=1000px) {
+  .hero-content h1 {
+    font-size: var(--hero-title-desktop);
+  }
+
+  .subtitle {
+    font-size: var(--hero-subtitle-desktop);
+  }
+
+  .hero-image img {
+    max-height: 320px;
+  }
+}

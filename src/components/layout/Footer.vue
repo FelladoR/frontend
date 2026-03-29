@@ -1,0 +1,228 @@
+<template>
+  <footer class="main-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-top-inner">
+        <div class="footer-left">
+          <div class="footer-logo">
+            <i class="fas fa-shield-alt" />
+            <span>Antilink</span>
+          </div>
+          <div class="footer-copy">© {{ currentYear }} Antilink</div>
+        </div>
+
+        <nav class="footer-links">
+          <a href="/docs">{{ t('hero.docs') }}</a>
+          <a href="https://discord.gg/4gKnjwyWpK" target="_blank">{{
+            t('header.support')
+          }}</a>
+          <a href="/terms">{{ t('footer.temps') }}</a>
+          <a href="/privacy">{{ t('footer.privacy') }}</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        {{ t('footer.rights') }}
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const currentYear = computed(() => new Date().getFullYear());
+</script>
+
+<style scoped>
+:root {
+  --footer-bg: #0a0b10;
+  --footer-border: rgba(255, 255, 255, 0.04);
+  --footer-text: #e6e7ea;
+  --footer-muted: #9aa0b2;
+  --accent: #5865f2;
+  --max-width: 1080px;
+  --site-padding: 1rem;
+}
+
+.main-footer {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 11, 14, 0.65),
+    rgba(8, 9, 12, 0.85)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.035);
+  color: var(--footer-text, #e6e7ea);
+  margin-top: auto;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.footer-logo i {
+  color: var(--accent, #5865f2);
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--footer-muted, #9aa0b2);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--footer-muted, #9aa0b2);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--footer-text, #e6e7ea);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.footer-top-inner {
+  max-width: var(--max-width, 1080px);
+  margin: 0 auto;
+  padding: 1.25rem var(--site-padding, 1rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-bottom-inner {
+  max-width: var(--max-width, 1080px);
+  margin: 0 auto;
+  padding: 0.75rem var(--site-padding, 1rem);
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--footer-muted, #9aa0b2);
+}
+
+@media (max-width: 768px) {
+  .footer-top-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .footer-left {
+    align-items: center;
+    min-width: auto;
+    order: 3;
+    gap: 0.3rem;
+  }
+
+  .footer-links {
+    order: 1;
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .footer-links a {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .footer-bottom {
+    order: 2;
+    padding: 0.75rem var(--site-padding, 1rem);
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-links {
+    grid-template-columns: 1fr;
+    max-width: 240px;
+  }
+
+  .footer-bottom {
+    padding: 0.6rem var(--site-padding, 0.75rem);
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-top-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem var(--site-padding, 1rem) 1rem;
+  }
+
+  .footer-left {
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .footer-logo {
+    font-size: 1.2rem;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 0.5rem;
+    width: 100%;
+    max-width: 320px;
+    justify-items: center;
+  }
+
+  .footer-links a {
+    font-size: 0.85rem;
+    padding: 0.4rem;
+    width: 100%;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+  }
+
+  .footer-links a:active {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .footer-bottom-inner {
+    padding: 1rem var(--site-padding, 1rem);
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer-links {
+    grid-template-columns: 1fr;
+    max-width: 200px;
+  }
+}
+</style>

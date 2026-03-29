@@ -1,0 +1,284 @@
+/* --- БАЗОВІ СТИЛІ ХЕДЕРА (Повертаємо їх) --- */
+.header {
+  background: rgba(10, 11, 14, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #5865f2, #eb459e);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.header-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.header-link:hover {
+  color: #fff;
+}
+
+/* --- КНОПКА ЛОГІНУ --- */
+.header-login-btn {
+  background: #5865f2;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.profile-dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header-login-btn:hover {
+  background: #4752c4;
+  transform: translateY(-1px);
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0; /* Притискаємо до правого краю аватарки */
+  left: auto;
+  min-width: 220px;
+  background: rgba(20, 21, 27, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  z-index: 1000;
+  animation: dropdownIn 0.25s ease-out;
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%); /* Центруємо відносно іконки планети */
+  min-width: 180px;
+  background: rgba(20, 21, 27, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  padding: 8px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  animation: dropdownInCentered 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.user-profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.user-dropdown-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 12px; /* Зміщуємо вправо */
+  width: 12px;
+  height: 12px;
+  background: rgba(20, 21, 27, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+}
+
+.lang-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: rgba(20, 21, 27, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  transform: translateX(-50%) rotate(45deg);
+}
+/* --- ЕЛЕМЕНТИ СПИСКУ --- */
+.dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 2px;
+}
+.lang-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item i {
+  width: 20px;
+  text-align: center;
+  color: #5865f2;
+}
+
+.dropdown-item:hover,
+.lang-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+.lang-item.active {
+  background: rgba(88, 101, 242, 0.2);
+  color: #5865f2;
+}
+/* Спеціальний червоний для Logout */
+.dropdown-item:last-child:hover {
+  background: rgba(240, 71, 71, 0.1);
+  color: #f04747;
+}
+
+.dropdown-item:last-child:hover i {
+  color: #f04747;
+}
+
+/* Аватарка користувача */
+.user-avatar-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.user-avatar-wrapper:hover {
+  border-color: #5865f2;
+  box-shadow: 0 0 10px rgba(88, 101, 242, 0.4);
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-settings {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.profile-settings:hover {
+  opacity: 1;
+}
+
+.profile-settings img {
+  width: 24px;
+}
+
+/* --- АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ (до 768px) --- */
+@media (max-width: 768px) {
+  /* 1. Ховаємо зайвий текст у хедері, щоб не було наїзду */
+  .header-link {
+    display: none;
+  }
+
+  /* Трохи зменшуємо логотип у хедері для економії місця */
+  .header-logo {
+    font-size: 1.2rem;
+  }
+
+  /* 2. Фіксимо щит, щоб він не вилазив за екран */
+  .hero-image {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Центруємо картинку */
+    margin-top: 2rem;
+  }
+
+  .hero-image img,
+  .avatar-wrapper img {
+    max-width: 80%; /* Щоб не був на всю ширину екрана */
+    height: auto;
+    margin: 0 auto !important; /* Вбиваємо будь-які бокові відступи */
+  }
+}
+
+/* Спеціальна анімація для меню, що центроване по горизонталі */
+@keyframes dropdownInCentered {
+  from {
+    opacity: 0;
+    /* Додаємо -50% сюди, щоб воно не стрибало */
+    transform: translateX(-50%) translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

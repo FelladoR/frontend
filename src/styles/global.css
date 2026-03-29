@@ -1,0 +1,95 @@
+/* src/styles/global.css */
+:root {
+  --bg: #0f1115;
+  --card-bg: #14151b;
+  --fg: #e2e2e4;
+  --muted: #9aa0b2;
+  --accent: #5865f2;
+  --glass: rgba(255, 255, 255, 0.03);
+  --max-width: 1080px;
+  --site-padding: 1rem;
+  --bg-main-color: #0b0b0e;
+  --bg-main-image: none;
+  --bg-main-attachment: fixed;
+  --bg-main-repeat: no-repeat;
+  --bg-main-size: cover;
+  --bg-main-position: center;
+  --bg-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-color: var(--bg-main-color);
+  background-image: var(--bg-main-image);
+  background-attachment: var(--bg-main-attachment);
+  background-repeat: var(--bg-main-repeat);
+  background-size: var(--bg-main-size);
+  background-position: var(--bg-main-position);
+  color: var(--fg);
+  font-family: var(--bg-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+}
+
+btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-width: 180px;
+  /* ← збільшити для ПК */
+  white-space: nowrap;
+}
+
+.btn.primary-btn {
+  background: linear-gradient(90deg, #5865f2, #5a67f5);
+  color: #fff;
+}
+
+.btn.secondary-btn {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --site-padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --site-padding: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
