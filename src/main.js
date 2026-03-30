@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/vendor.css';
 import './styles/global.css';
 import './styles/main.css';
 import { createApp } from 'vue';

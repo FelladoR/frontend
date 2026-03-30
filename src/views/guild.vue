@@ -171,22 +171,21 @@
                       :value="role.id"
                       class="form-check-input me-2"
                     />
+
                     <span
                       class="role-swatch"
                       :style="{
-                        backgroundColor:
-                          '#' +
-                          (role.color
-                            ? role.color.toString(16).padStart(6, '0')
-                            : '888888'),
+                        backgroundColor: role.color
+                          ? '#' + role.color.toString(16).padStart(6, '0')
+                          : '#888888',
                       }"
                     />
+
                     <span class="role-name">{{ role.name }}</span>
-                    <small
-                      v-if="role.members && role.members > 0"
-                      class="text-muted ms-auto"
-                      >({{ role.members }} )</small
-                    >
+
+                    <small v-if="role.members > 0" class="text-muted ms-auto">
+                      ({{ role.members }})
+                    </small>
                   </label>
                 </div>
               </div>

@@ -1,916 +1,225 @@
-:root {
-  --layout-max: 1400px;
+/* ==========================================================================
+   ANTI-LINK GUILD SETTINGS (PRO VERSION)
+   ========================================================================== */
 
-  --bg-dark: #1a1a1a;
-  --bg-darker: #121212;
-  --bg-card: #2d2d2d;
-  --text-primary: #e0e0e0;
-  --text-secondary: #b0b0b0;
-  --accent-color: #5865f2;
-  --accent-hover: #4752c4;
-  --success-color: #28a745;
-  --error-color: #dc3545;
-  --border-color: #444;
-}
-
-html,
-body {
-  min-height: 100vh;
-  margin: 0;
-
-  background-color: var(--bg-main-color);
-  background-image: var(--bg-main-image);
-  background-attachment: var(--bg-main-attachment);
-  background-repeat: var(--bg-main-repeat);
-  background-size: var(--bg-main-size);
-  background-position: var(--bg-main-position);
-  font-family: var(--bd-font-family);
-  color: var(--fg);
-}
-
-.header,
-.header * {
-  box-sizing: border-box;
-}
-
-body {
-  color: var(--text-primary);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
-
-[v-cloak] {
+/* 1. Пріоритетне відображення табів (фікс того, що все було в купі) */
+.tab-content {
   display: none !important;
 }
 
-.header {
-  background-color: var(--bg-darker);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+.tab-content.active {
+  display: block !important;
+  animation: fadeIn 0.25s ease-out;
 }
 
-.guild-header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: var(--layout-max);
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.header-logo {
-  margin: 0;
-  font-size: 1.8rem;
-  background: linear-gradient(90deg, #5865f2, #eb459e);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.header-buttons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.header-link,
-.header-btn {
-  color: var(--text-primary);
-  text-decoration: none;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 0.95rem;
-  padding: 8px 14px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  font-weight: 500;
-}
-
-.header-link:hover,
-.header-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.header-login-btn {
-  background-color: var(--accent-color);
-  color: white;
-  padding: 8px 18px;
-  border-radius: 6px;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-
-.header-login-btn:hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-1px);
-}
-
-.main-content {
-  max-width: var(--layout-max);
-  padding: 28px 0;
-  margin: 0 auto;
+/* 2. Основні контейнери */
+.guild-page {
+  background-color: #0f1115 !important;
+  min-height: 100vh;
 }
 
 .page-container {
-  max-width: var(--layout-max);
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-footer,
-.main-footer {
-  all: unset;
-  display: block;
-}
-
-.footer-inner {
-  max-width: var(--layout-max);
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.guild-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.guild-top {
-  padding: 12px 8px;
-  align-items: center;
-}
-
-.guild-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.guild-icon img {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
-}
-
-.guild-text h2 {
-  margin: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.guild-text small {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-.back-btn {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.back-btn:hover {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-  color: white;
-}
-
-.settings-tabs {
-  display: flex;
-  gap: 12px;
-  margin: 15px 0 25px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.settings-tabs .nav {
-  padding: 6px;
-  background: transparent;
-}
-
-.settings-tabs .nav-link {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.settings-tabs .nav-link.active {
-  background: linear-gradient(90deg, var(--accent, #5865f2), #eb459e);
-  color: #fff;
-  box-shadow: 0 8px 22px rgba(88, 101, 242, 0.12);
-  border-color: rgba(255, 255, 255, 0.04);
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 8px;
-  position: relative;
-  margin-bottom: -1px;
-}
-
-.tab-btn.active {
-  color: var(--text-primary);
-  background-color: var(--accent-color);
-  border-radius: 8px;
-}
-
-.tab-btn:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-}
-
-.tab-content {
-  display: none;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.tab-content.active {
-  display: block;
+  /* 1. Встановлюємо комфортний максимум (1400px - ідеал для панелей) */
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+  flex: none;
 }
 
 .settings-card {
-  border-radius: 12px;
-  padding: 30px;
-  margin-bottom: 30px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
-.settings-card.card {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(0, 0, 0, 0.12)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--fg);
+.main-content {
+  /* padding: 40px 0; */
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 80%;
+}
+
+.guild-header-container h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+/* 3. Кнопки вкладок (Tabs) */
+.settings-tabs {
+  padding-top: 20px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  padding-bottom: 10px;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  /* Скидаємо min-width від глобальних кнопок */
+  min-width: auto !important;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: var(--radius);
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* 4. Картки налаштувань */
+.settings-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.35);
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
 .settings-card h4 {
-  margin-top: 0;
-  margin-bottom: 25px;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: white;
-}
-
-.settings-card .card-body h4 {
+  color: #ffffff;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--fg);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
+/* 5. Форми (Select, Control, Roles) */
 .form-label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: 500;
-  font-size: 1rem;
-}
-
-.form-control,
-.form-select {
-  background-color: var(--bg-darker);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  padding: 10px 15px;
-  border-radius: 6px;
-  width: 100%;
-  transition: all 0.2s;
-}
-
-.form-control,
-.form-select {
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--fg);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: none;
-  border-radius: 8px;
-}
-
-.form-control:focus,
-.form-select:focus {
-  outline: none;
-  border-color: rgba(88, 101, 242, 0.9);
-  box-shadow: 0 6px 18px rgba(88, 101, 242, 0.06);
-}
-
-.form-select:disabled {
-  background-color: #363535;
-}
-
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 26px;
-}
-
-.toggle-switch {
-  display: inline-block;
-  position: relative;
-  width: 46px;
-  height: 26px;
-}
-
-.toggle-switch input {
-  display: none;
-}
-
-.toggle-switch .slider {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 999px;
-  transition: all 150ms ease;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.toggle-switch .slider::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 160ms ease;
-  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.35);
-  transform: translateX(0);
-}
-
-input:checked + .slider {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-}
-
-input:checked + .slider:before {
-  transform: translateX(26px);
-  background-color: white;
-}
-
-input:disabled + .slider {
-  background-color: #333;
-  cursor: not-allowed;
-}
-
-input:disabled + .slider:before {
-  background-color: #666;
-}
-
-.loading-spinner,
-.loading-spinner:after {
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-}
-
-.loading-spinner {
-  display: inline-block;
-  border: 2px solid rgba(255, 255, 255, 0.06);
-  border-top-color: var(--accent, #5865f2);
-  animation: spin 1s linear infinite;
-  margin-right: 8px;
-}
-
-.progress-container {
-  height: 6px;
-  background-color: var(--bg-darker);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.progress-bar {
-  height: 100%;
-  background-color: var(--accent-color);
-  transition: width 0.3s ease;
-}
-
-.alert {
-  padding: 15px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  border: none;
-}
-
-.alert-danger {
-  background-color: rgba(220, 53, 69, 0.15);
-  color: #ff6b6b;
-}
-
-.alert-success {
-  background-color: rgba(40, 167, 69, 0.15);
-  color: #6bff8f;
-}
-
-.text-danger {
-  color: var(--error-color);
-  font-size: 0.9rem;
-  margin-top: 5px;
-  display: block;
-}
-
-.text-muted {
-  color: #6c757d;
-  font-size: 0.875em;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Відступи основного вмісту */
-.main-content {
-  padding: 28px 0;
-}
-
-/* Верхній блок гільдії */
-.guild-top {
-  padding: 12px 8px;
-  align-items: center;
-}
-
-.guild-top .guild-icon img {
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
-}
-
-/* Карти налаштувань */
-.settings-card.card {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(0, 0, 0, 0.12)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  color: var(--fg);
-  border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.35);
-}
-
-.settings-card .card-body h4 {
-  font-weight: 700;
-  color: var(--fg);
-}
-
-/* Nav-pills (вкладки) */
-.settings-tabs .nav {
-  padding: 6px;
-  background: transparent;
-}
-
-.settings-tabs .nav-link {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid transparent;
-  border-radius: 10px;
-  padding: 8px 12px;
+  color: #dbdee1;
+  font-size: 14px;
   font-weight: 600;
-  white-space: nowrap;
 }
 
-.settings-tabs .nav-link.active {
-  background: linear-gradient(90deg, var(--accent, #5865f2), #eb459e);
-  color: #fff;
-  box-shadow: 0 8px 22px rgba(88, 101, 242, 0.12);
-  border-color: rgba(255, 255, 255, 0.04);
-}
-
-/* Форми - прозорий/темний вигляд */
-.form-control,
-.form-select {
-  background: rgba(255, 255, 255, 0.02);
+.form-select,
+.form-control {
+  background: var(--bg-darker);
+  border: 1px solid var(--border);
   color: var(--fg);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: none;
-  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  width: 100%;
 }
 
-.form-control:focus,
-.form-select:focus {
+.form-select:focus,
+.form-control:focus {
+  border-color: #5865f2 !important;
+  box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.15) !important;
   outline: none;
-  border-color: rgba(88, 101, 242, 0.9);
-  box-shadow: 0 6px 18px rgba(88, 101, 242, 0.06);
-}
-
-/* Кнопки */
-.btn-primary {
-  background: linear-gradient(90deg, var(--accent, #5865f2), #5a67f5);
-  border: none;
-  font-weight: 700;
-}
-
-.btn-outline-light {
-  color: var(--fg);
-  border-color: rgba(255, 255, 255, 0.06);
-}
-
-/* Toggle switch (простий варіант) */
-.toggle-switch {
-  display: inline-block;
-  position: relative;
-  width: 46px;
-  height: 26px;
-}
-
-.toggle-switch input {
-  display: none;
-}
-
-.toggle-switch .slider {
-  position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 999px;
-  transition: all 150ms ease;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-}
-
-.toggle-switch .slider::after {
-  content: '';
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform 160ms ease;
-  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.35);
-  transform: translateX(0);
-}
-
-.toggle-switch input:checked + .slider {
-  background: linear-gradient(90deg, var(--accent, #5865f2), #eb459e);
-}
-
-.toggle-switch input:checked + .slider::after {
-  transform: translateX(20px);
-}
-
-/* Loading spinner (small) */
-.loading-spinner,
-.loading-spinner:after {
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-}
-
-.loading-spinner {
-  display: inline-block;
-  border: 2px solid rgba(255, 255, 255, 0.06);
-  border-top-color: var(--accent, #5865f2);
-  animation: spin 1s linear infinite;
-  margin-right: 8px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Whitelist role color indicator */
-.whitelist-role-color {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  margin-right: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-/* Backups table tweaks */
-.backups-table {
-  color: var(--fg);
-  background: transparent;
-}
-
-.backups-table thead th {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Empty / info blocks */
-.alert-info,
-.alert-warning,
-.alert-danger {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  color: var(--fg);
-}
-
-/* Ensure card contents are visible on dark BG */
-.settings-card,
-.card-body,
-.guild-settings {
-  background-clip: padding-box;
-}
-
-/* Roles list UI */
-.whitelist-roles .d-flex {
-  align-items: center;
 }
 
 .roles-list {
-  max-height: 260px;
-  overflow: auto;
-  padding: 6px;
+  background: var(--bg-darker) !important; /* Наш чорний фон #0b0b0e */
+  border: 1px solid var(--border);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  background: rgba(255, 255, 255, 0.01);
+  padding: 8px;
+  max-height: 250px; /* Щоб не розтягувало сторінку */
+  overflow-y: auto; /* Скрол */
 }
 
 .role-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 120ms ease;
-  color: var(--fg, #e6e7ea);
-}
-
-.role-item + .role-item {
-  margin-top: 6px;
+  transition: background 0.2s;
+  color: var(--fg);
+  margin-bottom: 2px;
 }
 
 .role-item:hover {
-  background: rgba(88, 101, 242, 0.04);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .role-swatch {
   width: 14px;
   height: 14px;
   border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  flex-shrink: 0;
+  margin-right: 12px;
+  flex-shrink: 0; /* Щоб не стискався, якщо текст довгий */
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .role-name {
-  font-weight: 600;
-  margin-left: 4px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
-@media (min-width: 1200px) {
-  .main-content {
-    max-width: 1400px;
-  }
-
-  .page-container {
-    max-width: 1400px;
-  }
+.form-check-input {
+  background-color: #313338 !important;
+  border: 1px solid #4e5058 !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 
-/* =========================
-   MOBILE FIXES (SAFE)
-   ========================= */
-@media (max-width: 768px) {
-  /* Загальні відступи */
-  .main-content {
-    padding: 16px 0;
-  }
-
-  .page-container {
-    padding: 0 12px;
-  }
-
-  /* Header сторінки гільдії */
-  .guild-header-container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .guild-header-container h2 {
-    font-size: 1.4rem;
-  }
-
-  .back-btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  /* Tabs — прокрутка замість каші */
-  .settings-tabs {
-    overflow-x: auto;
-    gap: 8px;
-    padding-bottom: 10px;
-  }
-
-  .settings-tabs::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .settings-tabs::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-  }
-
-  .tab-btn {
-    flex-shrink: 0;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    white-space: nowrap;
-  }
-
-  /* Карточки */
-  .settings-card {
-    padding: 16px;
-  }
-
-  .settings-card h4 {
-    font-size: 1.2rem;
-  }
-
-  /* Формові елементи */
-  .form-label {
-    font-size: 0.95rem;
-  }
-
-  .form-select,
-  .form-control {
-    font-size: 0.95rem;
-  }
-
-  /* Таблиці (backups) */
-  .table-responsive {
-    overflow-x: auto;
-  }
-
-  .backups-table th,
-  .backups-table td {
-    white-space: nowrap;
-    font-size: 0.85rem;
-  }
-
-  /* Кнопки — на всю ширину */
-  .settings-card .btn {
-    width: 100%;
-  }
+.form-check-input:checked {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
 }
 
-/* Small screens: зменшити висоту та робити кнопки повною шириною */
-@media (max-width: 720px) {
-  .guild-top .guild-icon img {
-    width: 48px;
-    height: 48px;
-  }
-
-  .settings-card.card {
-    border-radius: 10px;
-  }
-
-  .settings-card .card-body {
-    padding: 14px;
-  }
-
-  .settings-tabs .nav-link {
-    padding: 8px 10px;
-    font-size: 0.92rem;
-  }
-
-  .form-label {
-    font-size: 0.95rem;
-  }
-
-  .whitelist-role-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 0;
-  }
-
-  .settings-card .btn {
-    width: 100%;
-  }
-
-  .guild-actions .btn {
-    width: 100%;
-  }
-
-  .roles-list {
-    max-height: 200px;
-  }
-
-  .whitelist-roles .d-flex {
-    flex-direction: row;
-  }
+/* 6. Toggle Switch (Зелений як у Discord) */
+.toggle-switch .slider {
+  background-color: #4e5058 !important;
 }
-/* Very small screens */
-@media (max-width: 480px) {
-  .guild-top {
-    gap: 10px;
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
-  .guild-top .d-flex {
-    width: 100%;
-    justify-content: space-between;
-  }
+input:checked + .slider {
+  background-color: #23a559 !important; /* Discord Green */
+}
 
-  .guild-top .guild-icon img {
-    width: 44px;
-    height: 44px;
-  }
+/* 7. Кнопки дії */
+.btn-primary {
+  background: #5865f2 !important;
+  border: none !important;
+  padding: 10px 24px !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  border-radius: 6px !important;
+}
 
-  .settings-tabs .nav {
-    padding-left: 6px;
-    padding-right: 6px;
-  }
+.btn-primary:hover {
+  background: #4752c4 !important;
+  transform: translateY(-1px);
+}
 
-  .settings-tabs .nav-link {
-    font-size: 0.9rem;
-    padding: 7px 10px;
-  }
+/* 8. Таблиця бекапів */
+.backups-table {
+  color: #dbdee1 !important;
+}
 
-  .footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
-  }
+.backups-table thead th {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.05) !important;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #949ba4;
+}
 
-  .footer-links {
-    order: 1;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    width: 100%;
-    max-width: 320px;
-  }
+.backups-table tbody td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+  padding: 12px 8px !important;
+}
 
-  .footer-links a {
-    width: 100%;
-    justify-self: center;
+/* Анімація */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
   }
-
-  .footer-social {
-    order: 2;
-    justify-content: center;
-    gap: 0.8rem;
-  }
-
-  .footer-left {
-    order: 3;
-    align-items: center;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
