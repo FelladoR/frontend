@@ -19,23 +19,23 @@
 }
 
 .page-container {
-  /* 1. Встановлюємо комфортний максимум (1400px - ідеал для панелей) */
   max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   width: 95%;
-  flex: none;
+  flex: 1 0 auto; /* Додай це, щоб він допомагав штовхати футер */
 }
 
 .settings-card {
   width: 100%;
 }
 
+main,
 .main-content {
-  /* padding: 40px 0; */
+  flex: 1 0 auto;
   margin: 0 auto;
   padding: 2rem 1rem;
-  width: 80%;
+  padding-bottom: 80px; /* Трохи збільшимо відступ від футера */
+  width: 100%; /* Нехай займає всю ширину .page-container */
 }
 
 .guild-header-container h2 {
@@ -65,6 +65,7 @@
   padding: 8px 16px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
   border-radius: var(--radius);
 }
 
@@ -78,9 +79,7 @@
   color: #fff;
 }
 
-/* 4. Картки налаштувань */
 .settings-card {
-  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 2rem;

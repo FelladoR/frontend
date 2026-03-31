@@ -545,13 +545,11 @@
                       <td>
                         <button
                           class="btn btn-sm btn-success me-2"
-                          title="Відновити"
                           :disabled="
                             !hasAdminPermissions ||
                             restoringId === backup._id ||
                             restoringId === backup.id ||
-                            cooldownId === backup._id ||
-                            cooldownId === backup.id
+                            cooldown.isCooldown
                           "
                           @click="confirmRestoreBackup(backup._id || backup.id)"
                         >
@@ -561,12 +559,10 @@
                             <i class="fas fa-spinner fa-spin" />
                             {{ t('guild.backups.recovery') }}
                           </template>
-                          <template
-                            v-else-if="cooldownId === (backup._id || backup.id)"
-                          >
+                          <template v-else-if="cooldown.isCooldown">
                             <i class="fas fa-clock" />
                             {{ t('guild.backups.wait') }}
-                            {{ cooldownTime }}с
+                            {{ cooldown.cooldownRemaining }}с
                           </template>
                           <template v-else>
                             <i class="fas fa-undo" />
@@ -683,7 +679,10 @@ const cooldown = useCooldown();
 
 const { backups, hasAdminPermissions, loadBackups, createBackup } = useBackups(
   guildId,
-  cooldown
+  {
+    isCooldown: cooldown.isCooldown,
+    cooldownMessage: cooldown.cooldownMessage,
+  }
 );
 
 // Витягуємо АБСОЛЮТНО ВСЕ, що потрібно шаблону
@@ -701,6 +700,8 @@ const {
   availableRoles,
   loadGuildData,
   saveMainSettings,
+  saveVerificationSettings, // Додати
+  saveLoggingSettings, // Додати
 } = useGuildSettings(guildId);
 
 // ==========================================
@@ -765,51 +766,6 @@ async function handleSaveSettings() {
   // Викликаємо функцію з composable
   await saveMainSettings(showSuccess, showError);
   isSaving.value = false;
-}
-
-async function saveLoggingSettings() {
-  isSaving.value = true;
-  try {
-    const webhookUrl = loggingSettings.value.webhookId
-      ? getWebhookUrl(loggingSettings.value.webhookId)
-      : null;
-    const response = await apiFetch(`/api/guild/${guildId}/settings`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        logchannel: webhookUrl,
-        // Сюди можеш додати інші налаштування логування, якщо вони є в об'єкті
-      }),
-    });
-    if (!response.ok) throw new Error('Помилка збереження логування');
-    showSuccess('Налаштування логування збережено!');
-  } catch (err) {
-    showError(err.message);
-  } finally {
-    isSaving.value = false;
-  }
-}
-
-async function saveVerificationSettings() {
-  isSaving.value = true;
-  try {
-    const response = await apiFetch(`/api/guild/${guildId}/verification`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        verifiedRole: verificationSettings.value.verifiedRole,
-        unverifiedRole: verificationSettings.value.unverifiedRole,
-        verificationChannel: verificationSettings.value.verificationChannel,
-        captchaEnabled: verificationSettings.value.captchaEnabled,
-      }),
-    });
-    if (!response.ok) throw new Error('Помилка збереження верифікації');
-    showSuccess('Налаштування верифікації збережено!');
-  } catch (err) {
-    showError(err.message);
-  } finally {
-    isSaving.value = false;
-  }
 }
 
 async function handleCreateBackup() {

@@ -1,9 +1,6 @@
-/* src/styles/global.css */
-:root {
-  --bs-body-bg: var(--bg-main) !important;
-  --bs-body-bg-rgb: 15, 17, 21 !important; /* RGB версія для прозорості */
-  --bs-body-color: var(--fg) !important;
-  --bs-tertiary-bg: var(--bg-darker) !important;
+:root,
+[data-bs-theme='light'] {
+  /* Основні кольори проекту */
   --bg-main: #111214;
   --bg-card: #14151b;
   --bg-darker: #0b0b0e;
@@ -12,6 +9,12 @@
   --accent: #5865f2;
   --accent-hover: #4752c4;
   --border: rgba(255, 255, 255, 0.06);
+
+  /* Перезапис Bootstrap (тепер числа збігаються з HEX) */
+  --bs-body-bg: var(--bg-main) !important;
+  --bs-body-bg-rgb: 17, 18, 20 !important;
+  --bs-body-color: var(--fg) !important;
+  --bs-tertiary-bg: var(--bg-card) !important;
 
   /* Layout */
   --max-width: 1200px;

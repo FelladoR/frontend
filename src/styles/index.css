@@ -26,7 +26,6 @@ html,
 body {
   width: 100%;
   overflow-x: hidden;
-  background: #0b0b0e;
   color: var(--fg);
   font-family:
     Inter,
@@ -52,13 +51,13 @@ video {
 }
 
 /* Контейнер для фону (фіксуємо його позаду всього) */
-.background-wrap {
+/* .background-wrap {
   position: fixed;
-  inset: 0; /* Замінює top/left/right/bottom: 0 та width/height */
+  inset: 0; 
   z-index: -1;
   overflow: hidden;
-  background: #0b0b0e;
-}
+  background: var(--bg-main);
+} */
 
 /* Шар зі стаціонарними зорями */
 .stars {

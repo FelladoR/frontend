@@ -1,9 +1,5 @@
 <template>
   <div class="antilink-home">
-    <div class="background-wrap">
-      <div class="stars" />
-      <div class="twinkling" />
-    </div>
     <header-component />
     <main class="main-content">
       <section class="hero">
@@ -96,8 +92,8 @@ import FooterComponent from '@/components/layout/Footer.vue';
 import { apiFetch } from '@/api';
 
 const { t } = useI18n();
-const guilds = ref(1128);
-const members = ref(306107);
+const guilds = ref(0);
+const members = ref(0);
 
 const formattedGuilds = computed(() => {
   return guilds.value.toLocaleString('uk-UA');
