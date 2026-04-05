@@ -1,50 +1,68 @@
-import { ref, onBeforeUnmount } from 'vue';
-import { apiFetch } from '@/api';
+// composables/guild-settings/useCooldown.js
+import { ref } from 'vue';
 
-export function useCooldown() {
+export function useCooldown(initialSeconds = 5) {
   const isCooldown = ref(false);
   const cooldownRemaining = ref(0);
-  const cooldownMessage = ref(null);
   let timer = null;
 
-  function startCooldownTimer() {
+  const startCooldown = (seconds = initialSeconds) => {
+    console.log('Запуск кулдауну на', seconds, 'секунд');
+
     if (timer) clearInterval(timer);
+
+    isCooldown.value = true;
+    cooldownRemaining.value = seconds;
+
     timer = setInterval(() => {
-      cooldownRemaining.value--;
+      if (cooldownRemaining.value > 0) {
+        cooldownRemaining.value--;
+        console.log('Кулдаун:', cooldownRemaining.value);
+      }
+
       if (cooldownRemaining.value <= 0) {
         clearInterval(timer);
         isCooldown.value = false;
-        cooldownMessage.value = null;
-      } else {
-        cooldownMessage.value = `Зачекайте ${cooldownRemaining.value} секунд`;
+        timer = null;
+        console.log('Кулдаун завершено');
       }
     }, 1000);
-  }
+  };
 
-  async function checkCooldown() {
-    try {
-      const response = await apiFetch('/guild/cooldown', {
-        credentials: 'include',
-      });
-      const data = await response.json();
+  const setRemainingTime = (seconds) => {
+    console.log('Встановлення залишку часу:', seconds);
+    if (seconds > 0) {
+      if (timer) clearInterval(timer);
+      isCooldown.value = true;
+      cooldownRemaining.value = seconds;
 
-      if (data.hasCooldown && data.remaining > 0) {
-        cooldownRemaining.value = Math.max(0, data.remaining);
-        isCooldown.value = true;
-        startCooldownTimer();
-        return true;
-      }
-      isCooldown.value = false;
-      return false;
-    } catch (err) {
-      console.error('Помилка перевірки cooldown:', err);
-      return false;
+      timer = setInterval(() => {
+        if (cooldownRemaining.value > 0) {
+          cooldownRemaining.value--;
+        }
+        if (cooldownRemaining.value <= 0) {
+          clearInterval(timer);
+          isCooldown.value = false;
+          timer = null;
+        }
+      }, 1000);
     }
-  }
+  };
 
-  onBeforeUnmount(() => {
-    if (timer) clearInterval(timer);
-  });
+  const resetCooldown = () => {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+    isCooldown.value = false;
+    cooldownRemaining.value = 0;
+  };
 
-  return { isCooldown, cooldownRemaining, cooldownMessage, checkCooldown };
+  return {
+    isCooldown,
+    cooldownRemaining,
+    startCooldown,
+    setRemainingTime,
+    resetCooldown,
+  };
 }

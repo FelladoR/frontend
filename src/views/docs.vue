@@ -8,7 +8,7 @@
           <h1 class="mb-3">
             <i class="fas fa-shield-alt me-2" />{{ t('docs.main_title') }}
           </h1>
-          <p class="lead text-muted">
+          <p class="text-muted">
             {{ t('docs.main_description') }}
           </p>
 

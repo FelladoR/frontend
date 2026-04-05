@@ -1,5 +1,6 @@
 import { ref, computed } from 'vue';
 import { apiFetch } from '@/api';
+import { startLoadingMessages } from '../../views/guild.vue';
 
 export function useGuildSettings(guildId) {
   // Стан даних сервера
@@ -8,6 +9,23 @@ export function useGuildSettings(guildId) {
   const roles = ref([]);
   const webhooks = ref([]);
   const isLoading = ref(true);
+
+  const loadingMessage = ref('Завантаження даних сервера...');
+  const loadingMessages = [
+    'Завантаження даних сервера...',
+    'Отримання налаштувань...',
+    'Синхронізація з Discord...',
+    'Майже готово...',
+  ];
+  let messageInterval = null;
+
+  const startLoadingMessages = () => {
+    let index = 0;
+    messageInterval = setInterval(() => {
+      index = (index + 1) % loadingMessages.length;
+      loadingMessage.value = loadingMessages[index];
+    }, 2000);
+  };
 
   // Стан налаштувань
   const mainSettings = ref({ language: 'uk', antiRaid: false, autoMod: false });
@@ -29,17 +47,10 @@ export function useGuildSettings(guildId) {
   );
 
   async function loadGuildData(onError) {
-    isLoading.value = true;
     try {
-      console.log('Завантаження налаштувань для гільдії:', guildId);
-
       const response = await apiFetch(`/api/guild/${guildId}/all-settings`);
 
-      console.log('Статус відповіді:', response.status);
-      console.log('OK?', response.ok);
-
       if (!response.ok) {
-        // Спробуємо отримати текст помилки
         const errorText = await response.text();
         console.error('Текст помилки:', errorText);
         throw new Error(
@@ -48,7 +59,6 @@ export function useGuildSettings(guildId) {
       }
 
       const data = await response.json();
-      console.log('Отримані всі налаштування:', data);
 
       // Заповнюємо дані
       guild.value = data.guild;
@@ -86,6 +96,8 @@ export function useGuildSettings(guildId) {
               : true,
         };
       }
+
+      whitelistRoles.value = data.settings.whitelist || [];
     } catch (err) {
       console.error('Помилка завантаження:', err);
       if (onError) onError(err.message);

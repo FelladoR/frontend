@@ -19,7 +19,6 @@
             >
               <span class="lang-flag">{{ lang.flag }}</span>
               <span class="lang-name">{{ lang.name }}</span>
-              <span class="lang-short">{{ lang.short }}</span>
             </div>
           </div>
         </div>
@@ -87,14 +86,14 @@
               >
                 <i class="fa-solid fa-key" aria-hidden="true" /> Admin Panel
               </button>
-              <button
+              <!-- <button
                 class="dropdown-item"
                 role="menuitem"
                 @click="navigateToBackups"
               >
                 <i class="fas fa-solid fa-lock" aria-hidden="true" />
                 {{ t('header.my_backups') }}
-              </button>
+              </button> -->
               <button class="dropdown-item" role="menuitem" @click="logout">
                 <i class="fas fa-sign-out-alt" aria-hidden="true" />
                 {{ t('header.logout') }}
@@ -135,7 +134,7 @@ const userAvatar = computed(() => {
 });
 
 const oauthUrl =
-  'https://discord.com/oauth2/authorize?client_id=1127967356879130724&response_type=code&redirect_uri=https%3A%2F%2Ftest.antilink.pp.ua%2Fauth%2Fdiscord&scope=identify+guilds';
+  'https://discord.com/oauth2/authorize?client_id=1127967356879130724&response_type=code&redirect_uri=http%3A%2F%2F192.168.0.35%3A4173%2Fauth%2Fdiscord&scope=identify+guilds';
 
 // Методи
 const toggleMenu = () => {
@@ -192,10 +191,10 @@ const navigateToAdmin = () => {
   window.location.href = '/admin';
 };
 
-const navigateToBackups = () => {
-  menuOpen.value = false;
-  window.location.href = '/backup';
-};
+// const navigateToBackups = () => {
+//   menuOpen.value = false;
+//   window.location.href = '/backup';
+// };
 
 const loadUser = async () => {
   try {

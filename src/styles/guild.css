@@ -1,8 +1,3 @@
-/* ==========================================================================
-   ANTI-LINK GUILD SETTINGS (PRO VERSION)
-   ========================================================================== */
-
-/* 1. Пріоритетне відображення табів (фікс того, що все було в купі) */
 .tab-content {
   display: none !important;
 }
@@ -27,6 +22,30 @@
 
 .settings-card {
   width: 100%;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 1rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(88, 101, 242, 0.3);
+  border-top-color: #5865f2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 main,
@@ -211,6 +230,44 @@ input:checked + .slider {
   padding: 12px 8px !important;
 }
 
+/* Додайте в кінець вашого файлу зі стилями */
+
+/* Глобальна структура для всього додатку */
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Основний контейнер сторінки */
+.guild-page,
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Контейнер для контенту */
+.main-content {
+  flex: 1 0 auto;
+}
+
+/* Контейнер завантаження */
+.loading-container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px); /* Віднімаємо висоту хедера */
+  gap: 1rem;
+}
+
+/* Футер завжди внизу */
+footer-component {
+  flex-shrink: 0;
+  margin-top: auto;
+}
 /* Анімація */
 @keyframes fadeIn {
   from {

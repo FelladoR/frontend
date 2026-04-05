@@ -13,7 +13,6 @@
 body {
   min-height: 100vh;
   margin: 0;
-
   background-color: var(--bg-main-color);
   background-image: var(--bg-main-image);
   background-attachment: var(--bg-main-attachment);
@@ -22,6 +21,23 @@ body {
   background-position: var(--bg-main-position);
 
   color: var(--fg);
+}
+
+/* В самому кінці файлу */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.settings-card {
+  background-color: var(--bg-darker);
+  border-radius: 12px;
+}
+
+.card-body {
+  padding: 2rem;
 }
 
 .main-container {
@@ -100,4 +116,13 @@ hr {
   border: none;
   border-top: 1px solid var(--border-color);
   margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+  .card-body {
+    padding: 1.5rem;
+  }
 }
