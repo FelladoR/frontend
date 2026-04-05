@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "https://api.antilink.pp.ua/api/$1"
     }
   ]
 }
