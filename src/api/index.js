@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'https://api.antilink.pp.ua';
+const API_BASE = 'https://antilink.pp.ua';
 let csrfToken = null;
 
 async function getCsrfToken() {
@@ -20,7 +20,7 @@ async function getCsrfToken() {
 }
 
 export async function apiFetch(endpoint, options = {}) {
-  const method = options.method || 'GET';
+  const method = options.method  'GET';
 
   const headers = {
     'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export async function apiFetch(endpoint, options = {}) {
     }
   }
 
-  const res = await fetch(`${API_BASE}${endpoint}`, {
+  const res = await fetch(${API_BASE}${endpoint}, {
     ...options,
     credentials: 'include',
     headers,
