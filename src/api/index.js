@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://192.168.0.35:3000';
+const API_BASE = import.meta.env.VITE_API_URL || 'https://antilink.pp.ua';
 let csrfToken = null;
 
 async function getCsrfToken() {
