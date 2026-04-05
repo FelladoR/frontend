@@ -42,6 +42,11 @@ const routes = [
     name: 'backups',
     component: () => import('@/views/user-backups.vue'),
   },
+  {
+    path: '/appeal',
+    name: 'appeal',
+    component: () => import('@/views/appeal.vue'),
+  },
 ];
 
 const router = createRouter({
