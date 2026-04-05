@@ -5,6 +5,14 @@
       "destination": "https://api.antilink.pp.ua/api/$1"
     },
     {
+      "source": "/auth/discord",
+      "destination": "https://api.antilink.pp.ua/auth/discord"
+    },
+    {
+      "source": "/auth/(.*)",
+      "destination": "https://api.antilink.pp.ua/auth/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

@@ -134,7 +134,7 @@ const userAvatar = computed(() => {
 });
 
 const oauthUrl =
-  'https://discord.com/oauth2/authorize?client_id=1127967356879130724&response_type=code&redirect_uri=https%3A%2F%2Fantilink.pp.ua%2Fauth%2Fdiscord&scope=identify+guilds';
+  'https://discord.com/oauth2/authorize?client_id=1127967356879130724&response_type=code&redirect_uri=https%3A%2F%2Fapi.antilink.pp.ua%2Fauth%2Fdiscord&scope=identify+guilds';
 
 // Методи
 const toggleMenu = () => {
