@@ -241,7 +241,6 @@ const loadTurnstileScript = () => {
     script.async = true;
     script.defer = true;
     script.onload = () => {
-      console.log('Turnstile скрипт завантажено');
       initTurnstile();
     };
     document.head.appendChild(script);
