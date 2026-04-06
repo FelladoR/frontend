@@ -58,9 +58,7 @@
           </div>
         </div>
 
-        <!-- Cloudflare Turnstile -->
         <div
-          ref="turnstileContainer"
           class="cf-turnstile"
           data-sitekey="0x4AAAAAABlvMqbKySTZKHqS"
           data-callback="onCaptchaSuccessCallback"
