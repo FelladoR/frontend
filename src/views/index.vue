@@ -9,7 +9,10 @@
             {{ t('hero.description') }}
           </p>
           <div class="cta-buttons">
-            <a href="#" class="btn primary-btn">
+            <a
+              class="btn primary-btn"
+              href="https://discord.com/oauth2/authorize?client_id=1127967356879130724&permissions=8&scope=bot%20applications.commands"
+            >
               <i class="fab fa-discord" /> {{ t('hero.link_to_add') }}
             </a>
             <a href="/docs" class="btn secondary-btn">{{ t('hero.docs') }}</a>
